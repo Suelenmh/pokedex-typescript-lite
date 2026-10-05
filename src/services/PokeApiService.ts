@@ -1,36 +1,38 @@
-import { PokemonApiResponse, PokemonResumo } from "../models/Pokemon.js";
+import { PokemonResumo, PokemonApiResponse } from "../models/Pokemon.js";
 
-// RF04 – Função assíncrona para buscar Pokémon por nome ou ID
+// RF04: Função assíncrona para buscar Pokémon por nome ou ID usando fetch e Promises
 export async function buscarPokemon(nomeOuId: string): Promise<PokemonResumo | null> {
-  const url = `https://pokeapi.co{nomeOuId.toLowerCase().trim()}`;
+  const url = `https://pokeapi.co{nomeOuId.toLowerCase()}`;
 
+  // RF05: Bloco try/catch para tratamento de erros
   try {
     const resposta = await fetch(url);
 
-    // RF05 – Tratar erro de Pokémon inexistente (Status 404)
+    // Tratamento do erro 404/Pokémon inexistente
     if (!resposta.ok) {
-      console.log("[ERRO] Pokémon não encontrado.");
+      console.log(`[ERRO] Pokémon não encontrado: ${nomeOuId}`);
       return null;
     }
 
     const dados: PokemonApiResponse = await resposta.json();
 
-    // RF11 – Usar o método de array '.map' para extrair os tipos da PokeAPI
+    // RF06 & RF11: Mapeamento de dados da API usando o método de array .map()
     const tipos = dados.types.map((item) => item.type.name);
 
-    // RF06 – Mapear o retorno da API para o formato de objeto simplificado
-    const pokemonSimplificado: PokemonResumo = {
+    const pokemonFormatado: PokemonResumo = {
       id: dados.id,
       nome: dados.name,
       tipos: tipos,
       altura: dados.height,
-      peso: dados.weight,
+      peso: dados.weight
     };
 
-    return pokemonSimplificado;
+    console.log(`[OK] Pokémon encontrado: ${pokemonFormatado.nome}`);
+    return pokemonFormatado;
 
   } catch (erro) {
-    console.log("[ERRO] Não foi possível buscar o Pokémon.");
+    console.log(`[ERRO] Falha ao conectar com a PokeAPI ao buscar: ${nomeOuId}`);
     return null;
   }
 }
+
