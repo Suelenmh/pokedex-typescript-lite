@@ -1,7 +1,7 @@
 import { PokemonResumo } from '../models/Pokemon.js';
 
 export class CatalogoPokemon {
-    private pokemons: PokemonResumo[] = []; // RF12 - Atributo privado
+    private pokemons: PokemonResumo[] = []; 
 
     // RF08 e RF11 (.some)
     adicionar(pokemon: PokemonResumo): void {
@@ -13,8 +13,6 @@ export class CatalogoPokemon {
         this.pokemons.push(pokemon);
         console.log(`[OK] ${pokemon.nome} adicionado ao catálogo.`);
     }
-
-    // RF09 e RF11 (.forEach)
     listar(): void {
         console.log("\nCatálogo atual:");
         if (this.pokemons.length === 0) {
@@ -26,7 +24,6 @@ export class CatalogoPokemon {
         });
     }
 
-    // RF10 e RF11 (.filter)
     remover(id: number): void {
         const existe = this.pokemons.some((pokemon) => pokemon.id === id);
         if (!existe) {

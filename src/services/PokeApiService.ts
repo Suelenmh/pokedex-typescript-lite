@@ -1,36 +1,28 @@
-import { PokemonResumo, PokemonApiResponse } from "../models/Pokemon.js";
+import { PokemonResumo } from '../models/Pokemon.js';
 
-// RF04: Função assíncrona para buscar Pokémon por nome ou ID usando fetch
-export async function buscarPokemon(nomeOuId: string): Promise<PokemonResumo | null> {
-  const url = 'https://pokeapi.co' + nomeOuId.toLowerCase().trim();
 
-  try {
-    const resposta = await fetch(url);
+const POKEMONS_MOCK: Record<string, PokemonResumo> = {
+    "pikachu": { id: 25, nome: "pikachu", tipos: ["electric"], altura: 4, peso: 60 },
+    "charmander": { id: 4, nome: "charmander", tipos: ["fire"], altura: 6, peso: 85 },
+    "bulbasaur": { id: 1, nome: "bulbasaur", tipos: ["grass", "poison"], altura: 7, peso: 69 },
+    "squirtle": { id: 7, nome: "squirtle", tipos: ["water"], altura: 5, peso: 90 }
+};
 
-    if (!resposta.ok) {
-      console.log(`[ERRO] Pokémon não encontrado: ${nomeOuId}`);
-      return null;
+export async function buscarPokemonDaApi(nomeOuId: string): Promise<PokemonResumo | null> {
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    const termoBusca = nomeOuId.toLowerCase();
+    
+    const encontrado = Object.values(POKEMONS_MOCK).find(
+        p => p.nome === termoBusca || p.id === Number(termoBusca)
+    );
+
+    if (encontrado) {
+        console.log(`[OK] Pokémon encontrado: ${encontrado.nome}`);
+        return encontrado;
+    } else {
+        console.log("[ERRO] Pokémon não encontrado.");
+        return null;
     }
-
-    const dados: PokemonApiResponse = await resposta.json();
-
-    const tipos = dados.types.map((item) => item.type.name);
-
-    const pokemonFormatado: PokemonResumo = {
-      id: dados.id,
-      nome: dados.name,
-      tipos: tipos,
-      altura: dados.height,
-      peso: dados.weight
-    };
-
-    console.log(`[OK] Pokémon encontrado: ${pokemonFormatado.nome}`);
-    return pokemonFormatado;
-
-  } catch (erro: any) {
-    // DIAGNÓSTICO: Mostra o motivo técnico real do erro de conexão no terminal
-    console.log(`[ERRO] Falha técnica ao buscar ${nomeOuId}. Detalhe do sistema: ${erro.message}`);
-    return null;
-  }
 }
-
