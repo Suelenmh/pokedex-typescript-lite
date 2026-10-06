@@ -1,11 +1,16 @@
 {
   "name": "pokedex-typescript-lite",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Mini-Projeto Avaliativo - Pokédex Lite",
+  "main": "src/main.ts",
   "scripts": {
     "dev": "tsx src/main.ts",
     "build": "tsc"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.0.0",
     "tsx": "^4.0.0",

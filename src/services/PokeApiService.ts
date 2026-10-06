@@ -1,6 +1,5 @@
 import { PokemonResumo } from '../models/Pokemon.js';
 
-
 const POKEMONS_MOCK: Record<string, PokemonResumo> = {
     "pikachu": { id: 25, nome: "pikachu", tipos: ["electric"], altura: 4, peso: 60 },
     "charmander": { id: 4, nome: "charmander", tipos: ["fire"], altura: 6, peso: 85 },

@@ -4,10 +4,11 @@ import { CatalogoPokemon } from './services/CatalogoPokemon.js';
 async function main() {
     console.log("=== POKÉDEX TYPESCRIPT LITE ===\n");
     const catalogo = new CatalogoPokemon();
-
+  
     const pikachu = await buscarPokemonDaApi("pikachu");
     if (pikachu !== null) {
         catalogo.adicionar(pikachu);
+    }
     
     const charmander = await buscarPokemonDaApi("charmander");
     if (charmander !== null) {
