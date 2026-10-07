@@ -1,36 +1,49 @@
-import { PokemonResumo } from '../models/Pokemon.js';
+import { PokemonResumo } from "../models/Pokemon.js";
+import { BoxService } from "./BoxService.js";
 
 export class CatalogoPokemon {
-    private pokemons: PokemonResumo[] = []; 
+  private boxService = new BoxService();
 
-    // RF08 e RF11 (.some)
-    adicionar(pokemon: PokemonResumo): void {
-        const jaExiste = this.pokemons.some((item) => item.id === pokemon.id);
-        if (jaExiste) {
-            console.log(`[AVISO] ${pokemon.nome} já está no catálogo.`);
-            return;
-        }
-        this.pokemons.push(pokemon);
-        console.log(`[OK] ${pokemon.nome} adicionado ao catálogo.`);
-    }
-    listar(): void {
-        console.log("\nCatálogo atual:");
-        if (this.pokemons.length === 0) {
-            console.log("[AVISO] Catálogo vazio.");
-            return;
-        }
-        this.pokemons.forEach((pokemon) => {
-            console.log(`#${pokemon.id} - ${pokemon.nome} | Tipos: ${pokemon.tipos.join(", ")} | Altura: ${pokemon.altura} | Peso: ${pokemon.peso}`);
-        });
+  async adicionar(pokemon: PokemonResumo): Promise<void> {
+    const pokemons = await this.boxService.ler();
+    const jaExiste = pokemons.some((item) => item.id === pokemon.id);
+
+    if (jaExiste) {
+      console.log(`[AVISO] ${pokemon.nome} já está no catálogo.`);
+      return;
     }
 
-    remover(id: number): void {
-        const existe = this.pokemons.some((pokemon) => pokemon.id === id);
-        if (!existe) {
-            console.log("[AVISO] Nenhum Pokémon encontrado com esse ID.");
-            return;
-        }
-        this.pokemons = this.pokemons.filter((pokemon) => pokemon.id !== id);
-        console.log("[OK] Pokémon removido do catálogo.");
+    pokemons.push(pokemon);
+    await this.boxService.salvar(pokemons);
+    console.log(`[OK] ${pokemon.nome} adicionado ao catálogo (salvo em pc_box.json).`);
+  }
+
+  async listar(): Promise<void> {
+    console.log("\n--- 📋 CATÁLOGO ATUAL ---");
+    const pokemons = await this.boxService.ler();
+
+    if (pokemons.length === 0) {
+      console.log("[AVISO] Catálogo vazio.");
+      return;
     }
+
+    pokemons.forEach((p) => {
+      console.log(`#${p.id} - ${p.nome} | Tipos: ${p.tipos.join(", ")} | Altura: ${p.altura} | Peso: ${p.peso}`);
+    });
+    console.log("-------------------------\n");
+  }
+
+  async remover(id: number): Promise<void> {
+    let pokemons = await this.boxService.ler();
+    const existe = pokemons.some((item) => item.id === id);
+
+    if (!existe) {
+      console.log(`[AVISO] Nenhum Pokémon encontrado com esse ID.`);
+      return;
+    }
+
+    pokemons = pokemons.filter((item) => item.id !== id);
+    await this.boxService.salvar(pokemons);
+    console.log(`[OK] Pokémon removido do catálogo local.`);
+  }
 }

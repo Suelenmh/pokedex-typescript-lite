@@ -7,7 +7,7 @@ const POKEMONS_MOCK: Record<string, PokemonResumo> = {
     "squirtle": { id: 7, nome: "squirtle", tipos: ["water"], altura: 5, peso: 90 }
 };
 
-export async function buscarPokemonDaApi(nomeOuId: string): Promise<PokemonResumo | null> {
+export async function buscarPokemon(nomeOuId: string): Promise<PokemonResumo | null> {
 
     await new Promise(resolve => setTimeout(resolve, 100));
 
