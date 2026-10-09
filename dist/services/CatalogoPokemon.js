@@ -16,7 +16,7 @@ class CatalogoPokemon {
         console.log(`[OK] ${pokemon.nome} adicionado ao catálogo (salvo em pc_box.json).`);
     }
     async listar() {
-        console.log("\n---  CATÁLOGO ATUAL ---");
+        console.log("\n--- CATÁLOGO ATUAL ---");
         const pokemons = await this.boxService.ler();
         if (pokemons.length === 0) {
             console.log("[AVISO] Catálogo vazio.");

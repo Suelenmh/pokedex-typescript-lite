@@ -19,7 +19,7 @@ export class CatalogoPokemon {
   }
 
   async listar(): Promise<void> {
-    console.log("\n---  CATÁLOGO ATUAL ---");
+    console.log("\n--- CATÁLOGO ATUAL ---");
     const pokemons = await this.boxService.ler();
 
     if (pokemons.length === 0) {
