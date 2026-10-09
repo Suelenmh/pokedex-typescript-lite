@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "Mini-Projeto Avaliativo - Pokédex Lite",
   "main": "src/main.ts",
-  "scripts": {
+  
+    "scripts": {
     "dev": "tsx src/main.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node dist/main.js"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,3 +19,4 @@
     "typescript": "^5.0.0"
   }
 }
+
